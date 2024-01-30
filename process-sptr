@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+input_dir="test-input"
+output_dir="test-output"
+
+# Ensure the output directory exists or create it
+mkdir -p "$output_dir"
+
+# Loop through each file in the input directory
+for input_file in "$input_dir"/*; do
+    # Extract the file name without extension
+    filename=$(basename -- "$input_file")
+    filename_noext="${filename%.*}"
+
+    # Define the output file path with .json extension
+    output_file="$output_dir/$filename_noext.json"
+
+    # Process the input file with the Python script and save the output to the JSON file
+    python parse_sptr.py < "$input_file" > "$output_file"
+
+    echo "Processed: $input_file --> $output_file"
+done
+
+echo "Processing complete."
