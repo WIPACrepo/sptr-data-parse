@@ -4,6 +4,9 @@ import json
 import re
 import sys
 
+# BASE = 1024
+BASE = 1000
+
 def extract_transfers(data):
     transfers = {
         "projects": [],
@@ -15,14 +18,15 @@ def extract_transfers(data):
         project, count, volume, unit = match
         data_volume = float(volume)
         if unit == 'KB':
-            data_volume = data_volume * 1024
+            data_volume = data_volume * BASE
         elif unit == 'MB':
-            data_volume = data_volume * (1024 ** 2)
+            data_volume = data_volume * (BASE ** 2)
         elif unit == 'GB':
-            data_volume = data_volume * (1024 ** 3)
+            data_volume = data_volume * (BASE ** 3)
         else:
             raise Exception(f"I don't know what the heck a '{unit}' is")
         data_volume = int(data_volume)
+        data_volume = float(data_volume) / (10**9)
         transfers["projects"].append({
             "project": f"{project}",
             "count": f"{count}",
@@ -35,14 +39,15 @@ def extract_transfers(data):
         volume, unit = match
         data_volume = float(volume)
         if unit == 'KB':
-            data_volume = data_volume * 1024
+            data_volume = data_volume * BASE
         elif unit == 'MB':
-            data_volume = data_volume * (1024 ** 2)
+            data_volume = data_volume * (BASE ** 2)
         elif unit == 'GB':
-            data_volume = data_volume * (1024 ** 3)
+            data_volume = data_volume * (BASE ** 3)
         else:
             raise Exception(f"I don't know what the heck a '{unit}' is")
         data_volume = int(data_volume)
+        data_volume = float(data_volume) / (10**9)
         transfers["total"] = {
             "volume": f"{data_volume}",
         }
